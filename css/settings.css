@@ -1,0 +1,85 @@
+.settings-layout {
+  display: grid;
+  grid-template-columns: 1fr 22rem;
+  gap: 1rem;
+}
+
+.settings-section {
+  margin-bottom: 1rem;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+
+.setting-control {
+  padding: 0.9rem;
+  border-radius: calc(var(--radius) - 8px);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.setting-control label {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.color-control input[type="color"] {
+  width: 3rem;
+  height: 2.4rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.range-value {
+  display: inline-flex;
+  margin-top: 0.35rem;
+  color: var(--primary);
+  font-weight: 900;
+}
+
+.theme-preview {
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.theme-preview-card {
+  padding: 1rem;
+  border-radius: calc(var(--radius) - 8px);
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.theme-preview-title {
+  color: var(--text);
+  font-weight: 900;
+}
+
+.theme-preview-text {
+  color: var(--muted);
+}
+
+.danger-zone {
+  border-color: var(--danger);
+}
+
+@media (max-width: 992px) {
+  .settings-layout,
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}

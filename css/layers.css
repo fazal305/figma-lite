@@ -1,0 +1,87 @@
+.layers-layout {
+  display: grid;
+  grid-template-columns: 1fr 20rem;
+  gap: 1rem;
+}
+
+.layers-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.layer-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 6px);
+  background: var(--card);
+  transition: var(--transition-speed) ease;
+}
+
+.layer-item:hover,
+.layer-item.active {
+  border-color: var(--primary);
+  transform: translateY(-0.15rem);
+}
+
+.layer-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--radius) - 10px);
+  background: color-mix(in srgb, var(--primary), transparent 84%);
+  color: var(--primary);
+}
+
+.layer-name {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.layer-name:focus {
+  outline: 0;
+  color: var(--primary);
+}
+
+.layer-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.layer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.layer-action-btn {
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 10px);
+  background: var(--bg-soft);
+  color: var(--text);
+  padding: 0.4rem 0.55rem;
+}
+
+.layer-action-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.layer-state {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 992px) {
+  .layers-layout {
+    grid-template-columns: 1fr;
+  }
+}
