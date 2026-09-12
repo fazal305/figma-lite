@@ -15,7 +15,7 @@ $(function () {
     $(document).on("click", "#toggleGrid", toggleGrid);
     $(document).on("click", "#saveDesign", saveDesignState);
     $(document).on("click", "#deleteSelected", deleteSelectedElement);
-    $(document).on("input change", "[data-property]", function () { updateSelectedElementProperty($(this).data("property"), $(this).val()); });
+    $(document).on("input change", "[data-property]", function () { updateSelectedElementProperty($(this).data("property"), $(this).val(), this); });
 
     $(document).on("pointerdown", "#canvasWrap", onCanvasPointerDown);
     $(document).on("pointerdown", ".design-element", onElementPointerDown);
@@ -167,13 +167,46 @@ function numberInput(field, label, value, min = "", max = "", step = "1") {
     return `<div class="property-group"><div class="property-label">${label}</div><input type="number" min="${min}" max="${max}" step="${step}" class="form-control" data-property="${field}" value="${value}"></div>`;
 }
 
-function updateSelectedElementProperty(field, value) {
+const NUMERIC_PROPERTY_BOUNDS = {
+    x: { min: -100000, max: 100000 },
+    y: { min: -100000, max: 100000 },
+    width: { min: 1, max: 10000 },
+    height: { min: 1, max: 10000 },
+    fontSize: { min: 1, max: 500 },
+    strokeWidth: { min: 0, max: 200 },
+    opacity: { min: 0, max: 1 }
+};
+
+function updateSelectedElementProperty(field, value, inputEl) {
     const app = window.FigmaLite;
     const workspace = app.loadWorkspace();
     const el = app.getElementById(workspace, workspace.design.selectedElementId);
     if (!el || el.locked) return;
-    const numericFields = ["x", "y", "width", "height", "fontSize", "strokeWidth", "opacity"];
-    el[field] = numericFields.includes(field) ? Number(value) : value;
+    const numericFields = Object.keys(NUMERIC_PROPERTY_BOUNDS);
+
+    if (numericFields.includes(field)) {
+        const bounds = NUMERIC_PROPERTY_BOUNDS[field];
+        const parsed = Number(value);
+
+        if (value === "" || Number.isNaN(parsed)) {
+            if (inputEl) inputEl.classList.add("is-invalid");
+            app.showStatus(`${field} must be a number`, "warning");
+            return;
+        }
+
+        const clamped = Math.min(bounds.max, Math.max(bounds.min, parsed));
+        if (inputEl) inputEl.classList.remove("is-invalid");
+
+        if (clamped !== parsed) {
+            if (inputEl) inputEl.value = clamped;
+            app.showStatus(`${field} clamped to ${clamped}`, "warning");
+        }
+
+        el[field] = clamped;
+    } else {
+        el[field] = value;
+    }
+
     el.updatedAt = new Date().toISOString();
     app.saveWorkspace(workspace);
     renderCanvas();

@@ -265,6 +265,11 @@ svg {
   color: var(--muted);
 }
 
+.form-control.is-invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--danger), transparent 78%);
+}
+
 .badge-soft {
   display: inline-flex;
   align-items: center;
